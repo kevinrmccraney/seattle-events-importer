@@ -1,4 +1,4 @@
-# Seattle Events Supabase Importer v4
+# Seattle Events Supabase Importer v4.1
 
 This repository does not scrape venue websites. It consumes normalized RSS feeds produced by the separate feed-producer repository and maintains the Supabase review database.
 
@@ -94,3 +94,16 @@ python -m seattle_importer.main --dry-run
 ```bash
 python -m unittest discover -s tests -v
 ```
+
+## Feed registry update (v4.1)
+
+`feeds.json` now also consumes:
+
+- `feeds/tractor.xml` with `status/tractor.json`
+- `feeds/clockout.xml` with `status/clockout.json`
+
+No schema or importer-state behavior changed.
+
+### v4.2 feeds
+
+The default feed registry also consumes `feeds/nectar.xml` and `feeds/hidden-hall.xml` with their matching status sidecars.

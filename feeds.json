@@ -1,6 +1,42 @@
 [
-  {"source": "neumos", "feed": "feeds/neumos.xml", "status": "status/neumos.json"},
-  {"source": "barboza", "feed": "feeds/barboza.xml", "status": "status/barboza.json"},
-  {"source": "vera", "feed": "feeds/vera.xml", "status": "status/vera.json"},
-  {"source": "showbox", "feed": "feeds/showbox.xml", "status": "status/showbox.json"}
+  {
+    "source": "neumos",
+    "feed": "feeds/neumos.xml",
+    "status": "status/neumos.json"
+  },
+  {
+    "source": "barboza",
+    "feed": "feeds/barboza.xml",
+    "status": "status/barboza.json"
+  },
+  {
+    "source": "vera",
+    "feed": "feeds/vera.xml",
+    "status": "status/vera.json"
+  },
+  {
+    "source": "showbox",
+    "feed": "feeds/showbox.xml",
+    "status": "status/showbox.json"
+  },
+  {
+    "source": "tractor",
+    "feed": "feeds/tractor.xml",
+    "status": "status/tractor.json"
+  },
+  {
+    "source": "clockout",
+    "feed": "feeds/clockout.xml",
+    "status": "status/clockout.json"
+  },
+  {
+    "source": "nectar",
+    "feed": "feeds/nectar.xml",
+    "status": "status/nectar.json"
+  },
+  {
+    "source": "hidden-hall",
+    "feed": "feeds/hidden-hall.xml",
+    "status": "status/hidden-hall.json"
+  }
 ]
