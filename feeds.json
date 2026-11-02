@@ -1,0 +1,6 @@
+[
+  {"source": "neumos", "feed": "feeds/neumos.xml", "status": "status/neumos.json"},
+  {"source": "barboza", "feed": "feeds/barboza.xml", "status": "status/barboza.json"},
+  {"source": "vera", "feed": "feeds/vera.xml", "status": "status/vera.json"},
+  {"source": "showbox", "feed": "feeds/showbox.xml", "status": "status/showbox.json"}
+]
