@@ -58,5 +58,45 @@
     "source": "royal-room",
     "feed": "feeds/royal-room.xml",
     "status": "status/royal-room.json"
+  },
+  {
+    "source": "crocodile",
+    "feed": "feeds/crocodile.xml",
+    "status": "status/crocodile.json"
+  },
+  {
+    "source": "sunset-tavern",
+    "feed": "feeds/sunset-tavern.xml",
+    "status": "status/sunset-tavern.json"
+  },
+  {
+    "source": "belltown-yacht-club",
+    "feed": "feeds/belltown-yacht-club.xml",
+    "status": "status/belltown-yacht-club.json"
+  },
+  {
+    "source": "baba-yaga",
+    "feed": "feeds/baba-yaga.xml",
+    "status": "status/baba-yaga.json"
+  },
+  {
+    "source": "triple-door",
+    "feed": "feeds/triple-door.xml",
+    "status": "status/triple-door.json"
+  },
+  {
+    "source": "rabbit-box",
+    "feed": "feeds/rabbit-box.xml",
+    "status": "status/rabbit-box.json"
+  },
+  {
+    "source": "fremont-abbey",
+    "feed": "feeds/fremont-abbey.xml",
+    "status": "status/fremont-abbey.json"
+  },
+  {
+    "source": "ballard-homestead",
+    "feed": "feeds/ballard-homestead.xml",
+    "status": "status/ballard-homestead.json"
   }
 ]

@@ -124,3 +124,8 @@ The default `feeds.json` registry includes:
 - `feeds/royal-room.xml`
 
 with matching status sidecars. No SQL/schema change is required.
+
+
+### v4.6 feeds
+
+The default registry additionally consumes the eight v8 venue feeds from the producer repository. No SQL/schema change is required.
