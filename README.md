@@ -107,3 +107,20 @@ No schema or importer-state behavior changed.
 ### v4.2 feeds
 
 The default feed registry also consumes `feeds/nectar.xml` and `feeds/hidden-hall.xml` with their matching status sidecars.
+
+
+### v4.3 feeds
+
+The default registry additionally consumes El Corazón, The Funhouse, Dimitriou's Jazz Alley, and The Royal Room normalized feeds. No Supabase schema change is required.
+
+
+### v4.4 feeds
+
+The default `feeds.json` registry includes:
+
+- `feeds/el-corazon.xml`
+- `feeds/funhouse.xml`
+- `feeds/jazz-alley.xml`
+- `feeds/royal-room.xml`
+
+with matching status sidecars. No SQL/schema change is required.

@@ -38,5 +38,25 @@
     "source": "hidden-hall",
     "feed": "feeds/hidden-hall.xml",
     "status": "status/hidden-hall.json"
+  },
+  {
+    "source": "el-corazon",
+    "feed": "feeds/el-corazon.xml",
+    "status": "status/el-corazon.json"
+  },
+  {
+    "source": "funhouse",
+    "feed": "feeds/funhouse.xml",
+    "status": "status/funhouse.json"
+  },
+  {
+    "source": "jazz-alley",
+    "feed": "feeds/jazz-alley.xml",
+    "status": "status/jazz-alley.json"
+  },
+  {
+    "source": "royal-room",
+    "feed": "feeds/royal-room.xml",
+    "status": "status/royal-room.json"
   }
 ]
