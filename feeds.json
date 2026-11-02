@@ -98,5 +98,20 @@
     "source": "ballard-homestead",
     "feed": "feeds/ballard-homestead.xml",
     "status": "status/ballard-homestead.json"
+  },
+  {
+    "source": "paramount",
+    "feed": "feeds/paramount.xml",
+    "status": "status/paramount.json"
+  },
+  {
+    "source": "neptune",
+    "feed": "feeds/neptune.xml",
+    "status": "status/neptune.json"
+  },
+  {
+    "source": "moore",
+    "feed": "feeds/moore.xml",
+    "status": "status/moore.json"
   }
 ]
