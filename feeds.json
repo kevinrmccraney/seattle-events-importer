@@ -113,5 +113,20 @@
     "source": "moore",
     "feed": "feeds/moore.xml",
     "status": "status/moore.json"
+  },
+  {
+    "source": "chop-suey",
+    "feed": "feeds/chop-suey.xml",
+    "status": "status/chop-suey.json"
+  },
+  {
+    "source": "substation",
+    "feed": "feeds/substation.xml",
+    "status": "status/substation.json"
+  },
+  {
+    "source": "central-saloon",
+    "feed": "feeds/central-saloon.xml",
+    "status": "status/central-saloon.json"
   }
 ]
