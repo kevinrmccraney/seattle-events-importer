@@ -11,6 +11,7 @@ from urllib.parse import urljoin
 import requests
 from dateutil.parser import isoparse
 
+from .diagnostics import format_failure, format_producer_failure, layer_for
 from .feed import parse_feed
 from .models import IngestionEvent
 from .supabase import Supabase
@@ -26,9 +27,17 @@ def supabase_from_env() -> Supabase:
 
 
 def report(sb: Supabase, source: str, code: str, message: str, now: datetime, metadata=None):
-    incident = IngestionEvent(source, "error", code, message, now, metadata or {})
-    sb.report_ingestion_error(incident)
+    # Print first so a second failure inside incident reporting cannot hide this one.
     print(f"ERROR {source} [{code}]: {message}", file=sys.stderr)
+    incident = IngestionEvent(source, "error", code, message, now, metadata or {})
+    try:
+        sb.report_ingestion_error(incident)
+    except Exception as exc:
+        nested = format_failure(exc, "importer-incident-report", source)
+        print(
+            f"ERROR {source} [incident_report_failed]: original failure preserved; {nested}",
+            file=sys.stderr,
+        )
 
 
 def run(config_path: str, dry_run: bool = False) -> int:
@@ -56,13 +65,36 @@ def run(config_path: str, dry_run: bool = False) -> int:
             status_time = isoparse(status["generated_at"])
             if not status.get("success"):
                 failures += 1
+                detail = format_producer_failure(expected_source, status)
                 if sb:
-                    report(sb, expected_source, status.get("code", "producer_error"), status.get("message", "producer failed"), now, {"status_url": status_url})
+                    report(
+                        sb,
+                        expected_source,
+                        status.get("code", "producer_error"),
+                        detail,
+                        now,
+                        {"status_url": status_url, "layer": "producer"},
+                    )
+                else:
+                    print(f"ERROR {expected_source}: {detail}", file=sys.stderr)
                 continue
             if status_time < stale_after:
                 failures += 1
+                detail = (
+                    f"layer=published-feed source={expected_source} code=feed_stale "
+                    f"status=none error=feed producer has not succeeded since {status_time.isoformat()}"
+                )
                 if sb:
-                    report(sb, expected_source, "feed_stale", f"feed producer has not succeeded since {status_time.isoformat()}", now, {"status_url": status_url})
+                    report(
+                        sb,
+                        expected_source,
+                        "feed_stale",
+                        detail,
+                        now,
+                        {"status_url": status_url, "layer": "published-feed"},
+                    )
+                else:
+                    print(f"ERROR {expected_source}: {detail}", file=sys.stderr)
                 continue
 
             feed_url = urljoin(base, item["feed"])
@@ -86,10 +118,16 @@ def run(config_path: str, dry_run: bool = False) -> int:
                 print(f"{source}: imported {len(rows)} events")
         except Exception as exc:
             failures += 1
+            layer = layer_for(exc)
+            detail = format_failure(exc, layer, expected_source)
+            metadata = {"exception_type": type(exc).__name__, "layer": layer}
+            status_code = getattr(getattr(exc, "response", None), "status_code", None)
+            if status_code:
+                metadata["http_status"] = status_code
             if sb:
-                report(sb, expected_source, "feed_import_error", str(exc), now, {"exception_type": type(exc).__name__})
+                report(sb, expected_source, "feed_import_error", detail, now, metadata)
             else:
-                print(f"ERROR {expected_source}: {exc}", file=sys.stderr)
+                print(f"ERROR {expected_source}: {detail}", file=sys.stderr)
 
     return failures
 
