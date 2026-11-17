@@ -75,6 +75,52 @@ class SupabasePreservationTests(unittest.TestCase):
         self.assertEqual(sent["notes"], "keep")
         self.assertEqual(sent["last_material_change_at"], "2026-10-31T12:00:00+00:00")
 
+    @patch("seattle_importer.supabase.requests.post")
+    @patch("seattle_importer.supabase.requests.get")
+    def test_mixed_new_and_existing_rows_use_the_same_keys(self, mock_get, mock_post):
+        mock_get.return_value = Mock(
+            status_code=200,
+            json=lambda: [{
+                "id": "x:1",
+                "first_seen_at": "2026-10-01T00:00:00+00:00",
+                "review_status": "interested",
+                "reviewed_at": "2026-10-15T00:00:00+00:00",
+                "visible": False,
+                "favorite": True,
+                "category": "maybe",
+                "notes": "keep",
+                "material_hash": "oldhash",
+                "last_material_change_at": "2026-10-01T00:00:00+00:00",
+            }],
+        )
+        mock_get.return_value.raise_for_status = lambda: None
+        mock_post.return_value = Mock(status_code=201)
+        mock_post.return_value.raise_for_status = lambda: None
+
+        fresh = Event(
+            id="x:2",
+            source="x",
+            source_event_id="2",
+            title="New",
+            venue="Venue",
+            start_at=datetime(2026, 12, 1, 20, 0, tzinfo=TZ),
+            event_url="https://example.com/2",
+        ).row(datetime(2026, 10, 31, 12, 0, tzinfo=TZ))
+        sb = Supabase("https://example.supabase.co", "secret")
+        sb.sync_source("x", [self.event_row(), fresh], "2026-10-31T12:00:00+00:00")
+
+        sent = mock_post.call_args.kwargs["json"]
+        self.assertEqual(len(sent), 2)
+        self.assertEqual(set(sent[0]), set(sent[1]))
+        self.assertEqual(sent[0]["notes"], "keep")
+        self.assertFalse(sent[0]["visible"])
+        self.assertEqual(sent[1]["review_status"], "unreviewed")
+        self.assertIsNone(sent[1]["reviewed_at"])
+        self.assertTrue(sent[1]["visible"])
+        self.assertFalse(sent[1]["favorite"])
+        self.assertIsNone(sent[1]["category"])
+        self.assertIsNone(sent[1]["notes"])
+
     @staticmethod
     def event_row():
         e = Event(

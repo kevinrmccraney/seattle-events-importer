@@ -7,14 +7,14 @@ import requests
 
 from .models import IngestionEvent
 
-HUMAN_FIELDS = (
-    "review_status",
-    "reviewed_at",
-    "visible",
-    "favorite",
-    "category",
-    "notes",
-)
+HUMAN_FIELDS = {
+    "review_status": "unreviewed",
+    "reviewed_at": None,
+    "visible": True,
+    "favorite": False,
+    "category": None,
+    "notes": None,
+}
 
 
 class Supabase:
@@ -49,18 +49,19 @@ class Supabase:
             old = existing.get(row["id"])
             if old:
                 row["first_seen_at"] = old.get("first_seen_at") or run_started_iso
-                for field in HUMAN_FIELDS:
-                    if field in old:
-                        row[field] = old.get(field)
                 if old.get("material_hash") != row.get("material_hash"):
                     row["last_material_change_at"] = run_started_iso
                 else:
                     row["last_material_change_at"] = old.get("last_material_change_at")
             else:
                 row["first_seen_at"] = run_started_iso
-                row["review_status"] = "unreviewed"
-                row["reviewed_at"] = None
                 row["last_material_change_at"] = run_started_iso
+            # Every object in one PostgREST bulk upsert must have the same keys.
+            for field, default in HUMAN_FIELDS.items():
+                if old and field in old:
+                    row[field] = old.get(field)
+                else:
+                    row[field] = default
 
             prepared.append(row)
 
