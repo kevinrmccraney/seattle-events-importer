@@ -128,5 +128,10 @@
     "source": "central-saloon",
     "feed": "feeds/central-saloon.xml",
     "status": "status/central-saloon.json"
+  },
+  {
+    "source": "sea-monster",
+    "feed": "feeds/sea-monster.xml",
+    "status": "status/sea-monster.json"
   }
 ]
