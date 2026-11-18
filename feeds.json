@@ -133,5 +133,10 @@
     "source": "sea-monster",
     "feed": "feeds/sea-monster.xml",
     "status": "status/sea-monster.json"
+  },
+  {
+    "source": "woodland-park-zoo",
+    "feed": "feeds/woodland-park-zoo.xml",
+    "status": "status/woodland-park-zoo.json"
   }
 ]
